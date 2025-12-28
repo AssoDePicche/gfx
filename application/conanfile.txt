@@ -1,0 +1,14 @@
+[requires]
+glfw/3.3.8
+glad/0.1.36
+stb/cci.20240531
+
+[options]
+glfw/*:shared=False
+glad/*:shared=False
+glfw/*:with_x11=True
+glfw/*:with_wayland=False
+
+[generators]
+CMakeDeps
+CMakeToolchain
