@@ -24,8 +24,6 @@ jobs:
         run: |
           docker build --target exporter --output type=local,dest=./dist .
           
-          mv ./dist/Gfx ./dist/Gfx-linux-x86_64
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
