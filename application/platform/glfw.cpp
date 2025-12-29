@@ -16,6 +16,10 @@ namespace platform {
 
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    glfwWindowHint(GLFW_FOCUSED, GL_TRUE);
+
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
     if (specification.debug) {
       glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
     }
@@ -28,11 +32,13 @@ namespace platform {
 
     glfwMakeContextCurrent(context);
 
-    int swapInterval = specification.verticalSynchronization ? 1 : 0; 
-
-    glfwSwapInterval(swapInterval);
+    glfwSwapInterval(specification.verticalSynchronization );
 
     glfwSetWindowUserPointer(context, this);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+	  std::cerr << "Failed to initialize OpenGL context" << std::endl;
+	}
   }
 
   void GlfwWindow::destroy() {
