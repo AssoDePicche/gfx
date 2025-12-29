@@ -1,6 +1,6 @@
 # Gfx
 
-A C++ graphics application (WIP).
+Just messing with computer graphics.
 
 ## Requirements
 
