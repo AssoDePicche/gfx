@@ -1,49 +1,57 @@
-# Ray tracing
+# Gfx
 
-Este projeto visa desenvolver um motor de renderização baseado em traçado de raios (*ray tracing*) para estudar algoritmos e técnicas de computação gráfica, ao mesmo tempo que revisa princípios da geometria analítica vetorial. Inicialmente, não pretendo utilizar bibliotecas de terceiros, com o objetivo de compreender o desenvolvimento de um software de renderização básico.
+Just messing with computer graphics.
 
-O estudo se dará principalmente por meio da série de livros *Ray Tracing in One Weekend*, para outras referências e mais informações confira a seção [*Bibliografia*](#bibliografia).
+## Requirements
 
-## Licença
+**To Build**
 
-Este software é livre e de domínio público, sinta-se à vontade para utilizá-lo em seus estudos ou projetos pessoais. Para mais informações veja a [*licença*](./LICENSE) do projeto.
+- [Docker](https://www.docker.com/get-started/)
 
-## Dependências e Compilação
+**To Run (Linux)**
 
-Antes de começar, verifique se você possui um compilador de C++ instalado e configurado, como o [*GNU Compiler Collection*](https://gcc.gnu.org/), e a ferramenta [*GNU Make*](https://www.gnu.org/software/make/). Uma vez que essas dependências estejam resolvidas, clone este repositório execute o comando *make* no diretório do projeto para gerar um binário.
+The pre-compiled binary is linked against GLIBC 2.36+. It requires the following system libraries to interface with the GPU and X11/Wayland:
+
+**Ubuntu/Debian**
 
 ```bash
-git clone git@github.com:AssoDePicche/raytracing.git && cd ./raytracing/ && make
+sudo apt update && sudo apt install libgl1-mesa-glx libx11-6 libxrandr2 libxinerama1 libxcursor1 libxi6
 ```
 
-## Encontrou problemas?
+**Fedora**
 
-Caso encontre erros ou tenha sugestões crie uma *Issue* descrevendo seu caso. No entanto, antes de criar uma *Issue*, certifique-se se o problema ou sugestão ainda não foi relatado.
+```bash
+sudo dnf install mesa-libGL libX11 libXrandr libXinerama libXcursor libXi
+```
 
-## Contribuições
+**Arch Linux**
 
-1. Crie um *fork* do projeto
+```bash
+sudo pacman -S mesa libx11 libxrandr libxinerama libxcursor libxi
+```
 
-2. Crie sua *feature branch*: *git checkout -b feature/my-feature*
+## Building Locally
 
-3. Faça o *commit* de suas alterações: *git commit -m “feat: add feature”*
+The project uses a Docker-based build system to ensure a consistent environment.
 
-4. Realize o *push* na *branch* de sua *feature*: *git push origin feature/my-feature*
+1. Clone the repository:
 
-5. Abra um *pull request* e aguarde aprovação
+```bash
+git clone https://github.com/AssoDePicche/gfx.git && cd gfx
+```
 
-Agradeço imensamente a sua contribuição! Após seu *pull request* sofrer o *merge*, sinta-se à vontade para excluir a *branch* de sua *feature*.
+2. Build it with Docker:
 
-**Observações:** Note que durante o desenvolvimento utilizei uma padronização para as mensagens de *commit* conhecida como [*Conventional Commits Pattern*](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657), por isso, peço que **utilize o mesmo padrão** ao fazer suas contribuições.
+```bash
+docker build --target exporter --output type=local,dest=. .
+```
 
-## Entre em contato
+This will produce an executable named `Gfx-linux-x86_64` in the project root.
 
-Para sanar dúvidas, realizar sugestões ou dar feedback, não hesite em enviar um email para [Samuel do Prado Rodrigues (AssoDePicche)](samuelprado730@gmail.com).
+## Usage
 
-## Bibliografia
+After downloading the latest release or building locally, grant execution permissions and run:
 
-BOLDRINI, L. José, COSTA, Sueli I. Rodrigues, FIGUEIREDO, Vera Lucia, WETZLER, Henry G. **Álgebra linear**. São Paulo, 3. ed. São Paulo: Harbra, 1986.
-
-SHIRLEY, Peter, BLACK, Trevor David, HOLLASCH, Steve. **Ray Tracing in One Weekend**, 2023. Disponível em: [raytracing.github.io](https://raytracing.github.io/books/RayTracingInOneWeekend.html). Acesso em 14 de jan. 2024.
-
-WINTERLE, Paulo. **Vetores e geometria analítica**. 2. ed. São Paulo: Pearson, 2014.
+```bash
+chmod +x Gfx-linux-x86_64
+```
