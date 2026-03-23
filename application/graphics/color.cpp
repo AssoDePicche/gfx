@@ -3,6 +3,13 @@
 #include <algorithm>
 #include <cmath>
 
+Color::Color(const uint32_t red, const uint32_t green, const uint32_t blue, float alpha) {
+  this->red = red;
+  this->green = green;
+  this->blue = blue;
+  this->alpha = alpha;
+}
+
 static uint32_t map_pixel_color(const float pixel, const float scale) {
   const auto MAX_INTENSITY = 256;
 

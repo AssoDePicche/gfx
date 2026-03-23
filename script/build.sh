@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cmake -S . -B ./build && cmake --build ./build -j12 --config release
+docker build --target exporter --output type=local,dest=. .
