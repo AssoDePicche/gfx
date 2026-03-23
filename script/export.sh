@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./build/App > preview.ppm
+./Gfx-linux-x86_64 > preview.ppm
