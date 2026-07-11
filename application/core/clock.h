@@ -1,6 +1,6 @@
 #pragma once
 
-#include <chrono>
+#include <memory>
 
 namespace core {
 class Clock final {
@@ -12,11 +12,12 @@ class Clock final {
 
   Clock(const float);
 
+  ~Clock();
+
   [[nodiscard]] Tick tick();
 
  private:
-  std::chrono::time_point<std::chrono::high_resolution_clock> firstTick;
-  std::chrono::time_point<std::chrono::high_resolution_clock> lastTick;
-  float maxStep;
+  struct Implementation;
+  std::unique_ptr<Implementation> pImpl;
 };
 }  // namespace core
