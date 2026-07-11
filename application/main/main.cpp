@@ -1,11 +1,10 @@
+#include "main.h"
+
 #include <core/application.h>
 #include <core/window.h>
 
-#include <cstdint>
 #include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <string>
 
 int main(void) {
@@ -38,41 +37,7 @@ int main(void) {
 
   core::Application application(specification, window);
 
+  application.push<MainLayer>();
+
   application.run();
-
-  const std::string filename = "settings.json";
-
-  if (!std::filesystem::exists(filename)) {
-    std::cerr << filename << " not found" << std::endl;
-
-    return 1;
-  }
-
-  std::ifstream stream(filename);
-
-  nlohmann::json json = nlohmann::json::parse(stream);
-
-  const float aspect_ratio = json["aspect-ratio"];
-
-  const uint64_t image_width = json["image-width"];
-
-  uint64_t image_height = image_width / aspect_ratio;
-
-  if (image_height < 1) {
-    image_height = 1;
-  }
-
-  std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
-
-  for (uint64_t i = 0u; i < image_width; ++i) {
-    for (uint64_t j = 0; j < image_height; ++j) {
-      const uint16_t red = 255.999f * double(j) / (image_width - 1);
-
-      const uint16_t green = 255.999f * double(i) / (image_height - 1);
-
-      const uint16_t blue = 0;
-
-      std::cout << red << " " << green << " " << blue << std::endl;
-    }
-  }
 }
