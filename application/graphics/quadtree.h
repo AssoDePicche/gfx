@@ -7,26 +7,26 @@
 #include "cartesian.h"
 
 struct Quadtree {
-  public:
-    Quadtree *topLeft;
-    Quadtree *topRight;
-    Quadtree *bottomLeft;
-    Quadtree *bottomRight;
-    std::vector<Cartesian> cartesians;
-    AABB aabb;
-    uint32_t capacity;
-    bool subdivided{false};
+ public:
+  Quadtree* topLeft;
+  Quadtree* topRight;
+  Quadtree* bottomLeft;
+  Quadtree* bottomRight;
+  std::vector<Cartesian> cartesians;
+  AABB aabb;
+  uint32_t capacity;
+  bool subdivided{false};
 
-    Quadtree(const AABB &, const uint32_t);
+  Quadtree(const AABB&, const uint32_t);
 
-    ~Quadtree();
+  ~Quadtree();
 
-    [[nodiscard]] bool Insert(const Cartesian &);
+  [[nodiscard]] bool Insert(const Cartesian&);
 
-    void Subdivide();
+  void Subdivide();
 
-    std::vector<Cartesian> Query(const AABB &);
+  std::vector<Cartesian> Query(const AABB&);
 
-  private:
-    std::vector<Cartesian> Query(const AABB &, std::vector<Cartesian> &);
+ private:
+  std::vector<Cartesian> Query(const AABB&, std::vector<Cartesian>&);
 };

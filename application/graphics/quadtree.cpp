@@ -7,7 +7,7 @@ Quadtree::~Quadtree() {
   delete bottomRight;
 }
 
-bool Quadtree::Insert(const Cartesian &cartesian) {
+bool Quadtree::Insert(const Cartesian& cartesian) {
   if (!aabb.IsCartesianInside(cartesian)) {
     return false;
   }
@@ -22,7 +22,8 @@ bool Quadtree::Insert(const Cartesian &cartesian) {
     Subdivide();
   }
 
-  if (topLeft->Insert(cartesian) || topRight->Insert(cartesian) || bottomLeft->Insert(cartesian) || bottomRight->Insert(cartesian)) {
+  if (topLeft->Insert(cartesian) || topRight->Insert(cartesian) ||
+      bottomLeft->Insert(cartesian) || bottomRight->Insert(cartesian)) {
     return true;
   }
 
@@ -57,16 +58,17 @@ void Quadtree::Subdivide() {
   subdivided = true;
 }
 
-std::vector<Cartesian> Quadtree::Query(const AABB &aabb) {
-    return Query(aabb, this->cartesians);
+std::vector<Cartesian> Quadtree::Query(const AABB& aabb) {
+  return Query(aabb, this->cartesians);
 }
 
-std::vector<Cartesian> Quadtree::Query(const AABB &aabb, std::vector<Cartesian> &cartesians) {
+std::vector<Cartesian> Quadtree::Query(const AABB& aabb,
+                                       std::vector<Cartesian>& cartesians) {
   if (!this->aabb.Intersect(aabb)) {
     return cartesians;
   }
 
-  for (const auto &cartesian : this->cartesians) {
+  for (const auto& cartesian : this->cartesians) {
     cartesians.push_back(cartesian);
   }
 
@@ -81,4 +83,6 @@ std::vector<Cartesian> Quadtree::Query(const AABB &aabb, std::vector<Cartesian> 
   this->bottomLeft->Query(aabb, cartesians);
 
   this->bottomRight->Query(aabb, cartesians);
+
+  return cartesians;
 }

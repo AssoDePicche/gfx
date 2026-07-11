@@ -1,8 +1,8 @@
 #pragma once
 
 namespace core {
-  class Event {
-    public:
-      virtual ~Event() = default;
-  };
-}
+class Event {
+ public:
+  virtual ~Event() = default;
+};
+}  // namespace core

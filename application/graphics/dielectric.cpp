@@ -5,7 +5,7 @@
 #include "ray.h"
 
 Dielectric::Dielectric(const float index_of_refraction)
-    : _index_of_refraction(index_of_refraction){};
+    : _index_of_refraction(index_of_refraction) {};
 
 bool Dielectric::scatter(const Ray& ray, const Collision& collision,
                          Vector3D& attenuation, Ray& scattered) const {

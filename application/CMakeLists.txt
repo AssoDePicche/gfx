@@ -12,7 +12,6 @@ enable_testing()
 
 add_subdirectory(core)
 add_subdirectory(graphics)
-add_subdirectory(platform)
 add_subdirectory(main)
 add_subdirectory(test)
 

@@ -1,12 +1,12 @@
+#include <core/application.h>
+#include <core/window.h>
+
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
-
-#include <core/application.h>
-#include <platform/glfw.h>
 
 int main(void) {
   std::string filepath = ".conf";
@@ -17,7 +17,8 @@ int main(void) {
     return 1;
   }
 
-  core::Application::Specification specification = core::Application::Specification::from(filepath);
+  core::Application::Specification specification =
+      core::Application::Specification::from(filepath);
 
   core::Window::Specification windowSpecification;
 
@@ -29,14 +30,15 @@ int main(void) {
 
   windowSpecification.debug = specification.debug;
 
-  windowSpecification.verticalSynchronization = specification.verticalSynchronization;
+  windowSpecification.verticalSynchronization =
+      specification.verticalSynchronization;
 
-  std::shared_ptr<core::Window> window = std::make_shared<platform::GlfwWindow>(windowSpecification);
+  std::shared_ptr<core::Window> window =
+      std::make_shared<core::Window>(windowSpecification);
 
   core::Application application(specification, window);
 
   application.run();
-
 
   const std::string filename = "settings.json";
 

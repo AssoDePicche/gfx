@@ -9,7 +9,7 @@ struct AABB {
   uint32_t height;
   uint32_t width;
 
-  AABB(const Cartesian &, const uint32_t, const uint32_t);
+  AABB(const Cartesian&, const uint32_t, const uint32_t);
 
   [[nodiscard]] uint32_t MinX() const;
 
@@ -19,8 +19,7 @@ struct AABB {
 
   [[nodiscard]] uint32_t MaxY() const;
 
-  [[nodiscard]] bool IsCartesianInside(const Cartesian &) const;
+  [[nodiscard]] bool IsCartesianInside(const Cartesian&) const;
 
-  [[nodiscard]] bool Intersect(const AABB &) const;
+  [[nodiscard]] bool Intersect(const AABB&) const;
 };
-

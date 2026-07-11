@@ -4,12 +4,8 @@ endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-find_package(glad REQUIRED)
-find_package(glfw3 REQUIRED)
 find_package(nlohmann_json REQUIRED)
-find_package(OpenGL REQUIRED)
-find_package(OpenGL REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE core graphics platform glad::glad glfw nlohmann_json::nlohmann_json OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} PRIVATE core nlohmann_json::nlohmann_json)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)

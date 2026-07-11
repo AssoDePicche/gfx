@@ -3,23 +3,27 @@
 #include <algorithm>
 
 namespace core {
-  Clock::Clock(const float maxStep) : firstTick(std::chrono::high_resolution_clock::now()), lastTick(firstTick), maxStep(maxStep) {}
+Clock::Clock(const float maxStep)
+    : firstTick(std::chrono::high_resolution_clock::now()),
+      lastTick(firstTick),
+      maxStep(maxStep) {}
 
-  Clock::Tick Clock::tick() {
-    const std::chrono::time_point<std::chrono::high_resolution_clock> currentTick = std::chrono::high_resolution_clock::now();
+Clock::Tick Clock::tick() {
+  const std::chrono::time_point<std::chrono::high_resolution_clock>
+      currentTick = std::chrono::high_resolution_clock::now();
 
-    const std::chrono::duration<float> tickDuration = currentTick - lastTick;
+  const std::chrono::duration<float> tickDuration = currentTick - lastTick;
 
-    lastTick = currentTick;
+  lastTick = currentTick;
 
-    const std::chrono::duration<double> uptimeDuration = currentTick - firstTick;
+  const std::chrono::duration<double> uptimeDuration = currentTick - firstTick;
 
-    Tick tick;
+  Tick tick;
 
-    tick.delta = std::min(tickDuration.count(), maxStep);
+  tick.delta = std::min(tickDuration.count(), maxStep);
 
-    tick.uptime = uptimeDuration.count();
+  tick.uptime = uptimeDuration.count();
 
-    return tick;
-  }
+  return tick;
 }
+}  // namespace core
