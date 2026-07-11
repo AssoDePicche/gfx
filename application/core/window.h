@@ -19,6 +19,8 @@ class Window {
 
   ~Window();
 
+  void clearBackground(const float, const float, const float, const float);
+
   void destroy();
 
   bool shouldClose() const;

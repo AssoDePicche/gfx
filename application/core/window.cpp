@@ -2,8 +2,8 @@
 
 #define GLFW_INCLUDE_NONE
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include <iostream>
 
@@ -44,6 +44,15 @@ struct Window::Implementation {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
       std::cerr << "Failed to initialize OpenGL context" << std::endl;
     }
+  }
+
+  void clearBackground(const float red, const float green, const float blue,
+                       const float alpha) {
+    glClearColor(red, green, blue, alpha);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glfwSwapBuffers(context);
   }
 
   void destroy() {
@@ -107,6 +116,12 @@ Window::Window(const Specification& specification)
     : pImpl(std::make_unique<Implementation>(specification)) {}
 
 Window::~Window() { this->pImpl->destroy(); }
+
+void Window::clearBackground(const float red, const float green,
+                             const float blue, const float alpha) {
+  this->pImpl->clearBackground(red, green, blue, alpha);
+}
+
 void Window::destroy() { this->pImpl->destroy(); }
 
 bool Window::shouldClose() const { return this->pImpl->shouldClose(); }
