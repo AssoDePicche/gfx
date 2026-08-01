@@ -1,4 +1,4 @@
-name: Continuous Build
+name: Build and Release
 
 on:
   push:
@@ -8,11 +8,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,21 +22,41 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and Extract Binary
+      - name: Run Build Script
         run: |
-          docker build --target exporter --output type=local,dest=./dist .
+          chmod +x scripts/build.sh
+          ./scripts/build.sh Release
 
-      - name: Upload Artifact
+      - name: Verify and Package Build Artifacts
+        id: package
+        run: |
+          echo "Checking exported files:"
+          ls -la
+
+          tar -czvf artifacts.tar.gz Gfx-linux-x86_64 README.md LICENSE
+
+      - name: Upload Build Artifact (For PRs and Commits)
         uses: actions/upload-artifact@v4
         with:
-          name: Gfx-binary
-          path: ./dist/Gfx-linux-x86_64
+          name: Gfx-linux-x86_64-PR-${{ github.event.pull_request.number || github.sha }}
+          path: artifacts.tar.gz
 
-      - name: Update Latest Release
+      - name: Update 'latest' Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: latest
-          files: ./dist/Gfx-linux-x86_64
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "artifacts.tar.gz"
+          tag: "latest"
+          name: "Latest Release"
+          body: |
+            ### Latest Changes:
+
+            ${{ github.event.head_commit.message }}
+
+            * **Triggered by:** `${{ github.actor }}`
+            * **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            * **Built on:** ${{ github.event.head_commit.timestamp }}
+          allowUpdates: true
+          removeArtifacts: true
+          recreate: true
+          makeLatest: true
