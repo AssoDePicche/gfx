@@ -34,7 +34,7 @@ jobs:
           echo "Checking exported files:"
           ls -la
 
-          tar -czvf artifacts.tar.gz App-linux-x86_64 README.md LICENSE
+          tar -czvf artifacts.tar.gz Gfx-linux-x86_64 README.md LICENSE
 
       - name: Upload Build Artifact (PRs and Commits)
         uses: actions/upload-artifact@v4
