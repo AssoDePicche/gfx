@@ -42,7 +42,11 @@ class Application final {
   template <typename T, typename... Args>
     requires std::derived_from<T, Layer>
   void push(Args&&... args) {
-    stack.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+    auto layer = std::make_unique<T>(std::forward<Args>(args)...);
+
+    layer->onAttach();
+
+    stack.push_back(std::move(layer));
   }
 
  private:

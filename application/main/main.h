@@ -3,36 +3,30 @@
 #include <core/clock.h>
 #include <core/event.h>
 #include <core/layer.h>
+#include <core/texture.h>
+#include <core/window.h>
 
-#include <algorithm>
 #include <cstdint>
-#include <iostream>
+#include <memory>
+#include <vector>
 
-class MainLayer : public core::Layer {
-  void onEvent(const core::Event& event) override {}
+class MainLayer final : public core::Layer {
+ public:
+  MainLayer(const uint32_t, const uint32_t);
 
-  void onRender(const float delta) override {
-    const float aspect_ratio = 16.0f / 9.0f;
+  void onAttach() override;
 
-    const uint64_t image_width = 1080;
+  void onDetach() override;
 
-    const uint64_t image_height =
-        static_cast<uint64_t>(std::max(image_width / aspect_ratio, 1.0f));
+  void onEvent(const core::Event&) override;
 
-    std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
+  void onRender(std::shared_ptr<core::Window>, const float) override;
 
-    for (uint64_t i = 0u; i < image_width; ++i) {
-      for (uint64_t j = 0u; j < image_height; ++j) {
-        const uint16_t red = 255.999f * double(j) / (image_width - 1);
+  void onUpdate(const core::Clock::Tick&) override;
 
-        const uint16_t green = 255.999f * double(i) / (image_height - 1);
-
-        const uint16_t blue = 0;
-
-        std::cout << red << " " << green << " " << blue << std::endl;
-      }
-    }
-  }
-
-  void onUpdate(const core::Clock::Tick& tick) override {}
+ private:
+  uint32_t width;
+  uint32_t height;
+  std::shared_ptr<core::Texture> texture;
+  std::vector<uint8_t> buffer;
 };

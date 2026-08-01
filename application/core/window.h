@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "texture.h"
+
 namespace core {
 class Window {
  public:
@@ -23,17 +25,19 @@ class Window {
 
   void destroy();
 
-  bool shouldClose() const;
+  void drawTexture(const std::shared_ptr<Texture>&);
+
+  [[nodiscard]] bool shouldClose() const;
 
   void update();
 
-  uint32_t height() const;
+  [[nodiscard]] uint32_t height() const;
 
-  uint32_t width() const;
+  [[nodiscard]] uint32_t width() const;
 
-  float cursorX() const;
+  [[nodiscard]] float cursorX() const;
 
-  float cursorY() const;
+  [[nodiscard]] float cursorY() const;
 
  private:
   struct Implementation;

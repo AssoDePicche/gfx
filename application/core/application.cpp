@@ -3,10 +3,8 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#include <ranges>
 
 #include "clock.h"
-#include "event.h"
 #include "window.h"
 
 namespace core {
@@ -16,7 +14,7 @@ Application::Application(const Application::Specification& specification,
       clock(specification.maxFrameStep),
       window(window) {}
 
-Application::~Application() { window->destroy(); }
+Application::~Application() { stop(); }
 
 void Application::run() {
   running = true;
@@ -46,14 +44,22 @@ void Application::run() {
     const float alpha = accumulator / deltaTime;
 
     for (const auto& layer : stack) {
-      layer->onRender(alpha);
+      layer->onRender(window, alpha);
     }
 
     window->update();
   }
 }
 
-void Application::stop() { running = false; }
+void Application::stop() {
+  running = false;
+
+  for (auto& layer : stack) {
+    layer->onDetach();
+  }
+
+  stack.clear();
+}
 
 Application::Specification Application::Specification::from(
     const std::string& filepath) {

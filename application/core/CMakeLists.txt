@@ -1,6 +1,7 @@
 add_library(core STATIC
   application.cpp
   clock.cpp
+  texture.cpp
   window.cpp
 )
 
