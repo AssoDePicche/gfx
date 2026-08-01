@@ -1,5 +1,9 @@
 FROM debian:bookworm-slim AS builder
 
+ARG BUILD_TYPE=Release
+
+ENV BUILD_TYPE=${BUILD_TYPE}
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -26,7 +30,7 @@ RUN conan profile detect --force && \
     conan install application/conanfile.txt \
     --output-folder=build \
     --build=missing \
-    -s build_type=Release \
+    -s build_type=${BUILD_TYPE} \
     -c tools.system.package_manager:mode=install
 
 RUN cmake -S application -B build -G Ninja \
@@ -35,7 +39,7 @@ RUN cmake -S application -B build -G Ninja \
 RUN cmake --build build
 RUN cmake --install build --prefix /src/install
 
-RUN strip /src/install/Gfx
+RUN if [ "$BUILD_TYPE" = "Release" ]; then strip /src/install/Gfx; fi
 
 FROM scratch AS exporter
 COPY --from=builder /src/install/Gfx /Gfx-linux-x86_64
