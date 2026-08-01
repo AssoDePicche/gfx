@@ -26,8 +26,7 @@ jobs:
 
       - name: Run Build Script
         run: |
-          chmod +x scripts/build.sh
-          ./scripts/build.sh Release
+          docker build --build-arg BUILD_TYPE=Release --build-arg BUILDKIT_INLINE_CACHE=1 --target exporter --output type=local,dest=. --progress=plain .
 
       - name: Verify and Package Build Artifacts
         id: package
